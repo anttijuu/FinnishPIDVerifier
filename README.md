@@ -1,4 +1,4 @@
-# Finnish Personal ID Verifier
+# Finnish Person ID Verifier
 
 This Swift library verifies a Finnish Person ID (PID) strings.
 
@@ -28,6 +28,7 @@ if verifier.isValid {
 ```
 The returned `verifier` struct has properties you can use to query the result from the verification:
 
+* `isValid`, is `true` if the PID was a valid PID not in the test range.
 * `validity` enumeration of the input to `verify(pid:)`, either `validPID`, `invalidPID` or `testPID`.
 * `gender` enumeration of the person, based on the PID, or `.undefined` if not a valid PID.
 * `birthDay`, a `Date` object or `nil` if PID was not valid.

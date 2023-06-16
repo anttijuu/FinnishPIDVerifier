@@ -76,6 +76,13 @@ public struct FiPIDVerifier {
 	/// The birth date of the person based on the PID.
 	private (set) var birthDay: Date?
 	
+	/// True, if the PID was valid and *not* a test PID.
+	var isValid: Bool {
+		get {
+			return validity == .validPID
+		}
+	}
+	
 	/// The birthdate of the person in format "mm.dd.yyyy" or nil if invalid PID.
 	var dateString: String? {
 		get {
@@ -239,9 +246,9 @@ extension FiPIDVerifier: CustomStringConvertible {
 	public var description: String {
 		switch validity {
 			case .validPID:
-				return "Valid PID \(pid): born: \(dateString), gender: \(genderString)"
+				return "Valid PID \(pid): born: \(dateString!), gender: \(genderString)"
 			case .testPID:
-				return "Test PID: \(pid): born: \(dateString), gender: \(genderString)"
+				return "Test PID: \(pid): born: \(dateString!), gender: \(genderString)"
 			case .invalidPID:
 				return "Invalid PID"
 		}
