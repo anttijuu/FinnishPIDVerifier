@@ -1,6 +1,6 @@
 import Foundation
 
-/// `FiPIDVerifier` verifies Finnish Person ID strings.
+/// `FinnishPIDVerifier` verifies Finnish Person ID strings.
 /// 
 /// The string format is `ddmmyyAnnnX`, where:
 /// * dd is the day of birth
@@ -10,39 +10,47 @@ import Foundation
 /// * nnn is the daily number given to persons born on that day. Values >= 900 are used for test PIDs only. Even numbers are for females, odd numbers for males.
 /// * X is a control character, calculated from ddmmyynnn and using a lookup table.
 ///
-/// The function `FiPIDVerifier.verify(pid:)` returns an object that you can use to check for validity, using properties such as:
+/// The function `FinnishPIDVerifier.verify(pid:)` returns an object that you can use to check for validity, using properties such as:
 /// * validity
 /// * gender
 /// * birthDay and
 /// * day, month and year
 ///
-/// For details, see https://dvv.fi/henkilotunnus
-public struct FiPIDVerifier {
+/// For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
+///
+public struct FinnishPIDVerifier {
 
 	// MARK: - Public interface
 	
 	/// The validity enumeration.
 	public enum Validity {
-		case validPID		/// The PID was proven to be a valid PID.
-		case invalidPID	/// The PID was proven to be an invalid PID.
-		case testPID		/// The PID was proven to be a valid PID but one for testing only.
+		/// The PID was proven to be a valid PID.
+		case validPID
+		/// The PID was proven to be an invalid PID.
+		case invalidPID
+		/// The PID was proven to be a valid PID but one for testing only.
+		case testPID
 	}
 	
 	/// Gender enumeration.
 	/// Since the Finnish PID system only uses male and female, the `other` case is not used.
 	public enum Gender {
-		case undefined		/// The validity has not yet been determined.
-		case male			/// PID is for a male person.
-		case female			/// PID is for a female person.
-		case other			/// Not used.
+		/// The validity has not yet been determined.
+		case undefined
+		/// PID is for a male person.
+		case male
+		/// PID is for a female person.
+		case female
+		/// Not used.
+		case other
 	}
 	
 	/// Use this function to verify if a Finnish PID is valid or not.
 	///
 	/// - Parameter pid: The string to verify
-	/// - Returns: A FiPIDVerifier object you can use to check the properties of the verified pid.
-	public static func verify(pid: String) -> FiPIDVerifier {
-		var verifier = FiPIDVerifier(pid: pid)
+	/// - Returns: A FinnishPIDVerifier object you can use to check the properties of the verified pid.
+	public static func verify(pid: String) -> FinnishPIDVerifier {
+		var verifier = FinnishPIDVerifier(pid: pid)
 		guard pid.count == 11 else {
 			return verifier
 		}
@@ -70,21 +78,21 @@ public struct FiPIDVerifier {
 	}
 
 	/// The validity of the checked PID.
-	private (set) var validity: Validity = .invalidPID
+	public private (set) var validity: Validity = .invalidPID
 	/// The gender of the person based on the PID.
-	private (set) var gender: Gender = .undefined
-	/// The birth date of the person based on the PID.
-	private (set) var birthDay: Date?
+	public private (set) var gender: Gender = .undefined
+	/// The birth date of the person based on the PID. If PID was invalid, is `nil`.
+	public private (set) var birthDay: Date?
 	
 	/// True, if the PID was valid and *not* a test PID.
-	var isValid: Bool {
+	public var isValid: Bool {
 		get {
 			return validity == .validPID
 		}
 	}
 	
 	/// The birthdate of the person in format "mm.dd.yyyy" or nil if invalid PID.
-	var dateString: String? {
+	public var dateString: String? {
 		get {
 			if validity == .validPID || validity == .testPID {
 				return "\(day!).\(month!).\(year!)"
@@ -95,7 +103,7 @@ public struct FiPIDVerifier {
 	}
 	
 	/// The gender of the person based on PID in English.
-	var genderString: String {
+	public var genderString: String {
 		switch gender {
 			case .female:
 				return NSLocalizedString("Female", bundle: Bundle.module, comment: "Gender is female")
@@ -109,7 +117,7 @@ public struct FiPIDVerifier {
 	}
 	
 	/// The year of birth or nil if not a valid birthday.
-	var year: Int? {
+	public var year: Int? {
 		get {
 			if let birthDay {
 				let calendar = Calendar(identifier: .gregorian)
@@ -122,7 +130,7 @@ public struct FiPIDVerifier {
 	}
 	
 	/// The month of birth or nil if not a valid birthday.
-	var month: Int? {
+	public var month: Int? {
 		get {
 			if let birthDay {
 				let calendar = Calendar(identifier: .gregorian)
@@ -135,7 +143,7 @@ public struct FiPIDVerifier {
 	}
 	
 	/// The day of birth or nil if not a valid birthday.
-	var day: Int? {
+	public var day: Int? {
 		get {
 			if let birthDay {
 				let calendar = Calendar(identifier: .gregorian)
@@ -242,15 +250,19 @@ public struct FiPIDVerifier {
 	}
 }
 
-extension FiPIDVerifier: CustomStringConvertible {
+/// Provides a localized  summary of the verification.
+extension FinnishPIDVerifier: CustomStringConvertible {
 	public var description: String {
 		switch validity {
 			case .validPID:
-				return NSLocalizedString("Valid PID: \(pid), born: \(dateString!), gender: \(genderString)", bundle: Bundle.module, comment: "A string with variables PID, date and gender")
+				let format = NSLocalizedString("VALID_PID_KEY", bundle: Bundle.module, value: "Valid PID: %@, born: %@, gender: %@", comment: "A string with variables PID, date and gender")
+				return String.localizedStringWithFormat(format, pid, dateString!, genderString)
 			case .testPID:
-				return NSLocalizedString("Test PID: \(pid), born: \(dateString!), gender: \(genderString)", bundle: Bundle.module, comment: "A string with variables PID, date and gender")
+				let format = NSLocalizedString("TEST_PID_KEY", bundle: Bundle.module, value: "Test PID: %@, born: %@, gender: %@", comment: "A string with variables PID, date and gender")
+				return String.localizedStringWithFormat(format, pid, dateString!, genderString)
 			case .invalidPID:
-				return NSLocalizedString("Invalid PID: \(pid)", bundle: Bundle.module, comment: "Invalid value for the PID")
+				let format = NSLocalizedString("INVALID_PID_KEY", bundle: Bundle.module, value: "Invalid PID: \(pid)", comment: "Invalid value for the PID")
+				return String.localizedStringWithFormat(format, pid)
 		}
 	}
 }

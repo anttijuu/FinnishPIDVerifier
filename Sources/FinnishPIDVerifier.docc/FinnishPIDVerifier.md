@@ -2,6 +2,10 @@
 
 This Swift library verifies a Finnish Person ID (PID) strings (in Finnish: "henkilötunnus").
 
+## Overview
+
+This Swift library verifies a Finnish Person ID (PID) strings (in Finnish: "henkilötunnus").
+
 Finnish PIDs are strings in format `ddmmyyAnnnX`, where:
 
 * dd is the day of birth,
@@ -9,21 +13,24 @@ Finnish PIDs are strings in format `ddmmyyAnnnX`, where:
 * yy is the last two digits of the year of birth,
 * A is the century character, indicating which century (1800, 1900 or 2000) the person was born,
 * nnn is the individual daily number given to persons born on that day, from range 002-899 (inclusive),
-  * Even numbers are for females, odd numbers for males,
-  * Values >= 900 are used for test PIDs only,
+* Even numbers are for females, odd numbers for males,
+* Values >= 900 are used for test PIDs only,
 * X is a control character, calculated from ddmmyynnn and using a lookup table.
 
 For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 
+## Topics
 
-## Usage
+### Usage
+
+Use the struct ``FinnishPIDVerifier`` and the `verify(pid:)` method to verify a Finnish PID:
 
 ```Swift
 let verifier = FinnishPIDVerifier.verify(pid: "010101-123N")
 if verifier.isValid {
-   print("Is a valid Finnish PID")
+	print("Is a valid Finnish PID")
 } else {
-   print("Invalid Finnish PID!)
+	print("Invalid Finnish PID!)
 }
 // prints:
 // Is a valid Finnish PID
@@ -50,47 +57,11 @@ Test PID: 211123A965F: born: 21.11.2023, gender: Male
 
 The library is localized to English and Finnish. Date formats are fixed, but `genderString` and `description` return strings for these languages.
 
-
-## Tests
-
-The Tests folder contains tests you can use to test the implementation with generated valid Finnish PIDs as well as some test and invalid PIDS.
-
-
-## Dependencies
-
-Depends on Swift `Foundation`. Uses `swift-docc-plugin` to generate documentation.
-
-
-## Using in your projects
+### Using in your projects
 
 Add the depencendy to this package in your `Package.swift` using the URL to this repository, or using Xcode (File > Add Packages...).
 
+### Getting started
 
-## License
-
-* MIT LICENSE
-
-Copyright (c) 2023 Antti Juustila
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-
-
+- ``FinnishPIDVerifier``
 
