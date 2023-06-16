@@ -98,13 +98,13 @@ public struct FiPIDVerifier {
 	var genderString: String {
 		switch gender {
 			case .female:
-				return "Female"
+				return NSLocalizedString("Female", bundle: Bundle.module, comment: "Gender is female")
 			case .male:
-				return "Male"
+				return NSLocalizedString("Male", bundle: Bundle.module, comment: "Gender is male")
 			case .other:
-				return "Other"
+				return NSLocalizedString("Other", bundle: Bundle.module, comment: "Gender is other")
 			case .undefined:
-				return "Undefined"
+				return NSLocalizedString("Undefined", bundle: Bundle.module, comment: "Gender is undefined since PID was invalid")
 		}
 	}
 	
@@ -246,11 +246,11 @@ extension FiPIDVerifier: CustomStringConvertible {
 	public var description: String {
 		switch validity {
 			case .validPID:
-				return "Valid PID \(pid): born: \(dateString!), gender: \(genderString)"
+				return NSLocalizedString("Valid PID: \(pid), born: \(dateString!), gender: \(genderString)", bundle: Bundle.module, comment: "A string with variables PID, date and gender")
 			case .testPID:
-				return "Test PID: \(pid): born: \(dateString!), gender: \(genderString)"
+				return NSLocalizedString("Test PID: \(pid), born: \(dateString!), gender: \(genderString)", bundle: Bundle.module, comment: "A string with variables PID, date and gender")
 			case .invalidPID:
-				return "Invalid PID"
+				return NSLocalizedString("Invalid PID: \(pid)", bundle: Bundle.module, comment: "Invalid value for the PID")
 		}
 	}
 }

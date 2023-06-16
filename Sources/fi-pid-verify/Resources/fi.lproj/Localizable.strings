@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  
+
+  Created by Antti Juustila on 16.6.2023.
+  
+*/
+
+"Male" = "Mies";
+"Female" = "Nainen";
+"Other" = "Muunsukupuolinen";
+"Undefined" = "Määrittelemätön";
+
+
+"Valid PID: %@, born: %@, gender: %@" = "Oikeellinen hetu: %@, syntynyt: %@, sukupuoli: %@";
+"Test PID: %@, born: %@, gender: %@" = "Testi-hetu: %@, syntynyt: %@, sukupuoli: %@";
+"Invalid PID: %@" = "Virheellinen hetu: %@";

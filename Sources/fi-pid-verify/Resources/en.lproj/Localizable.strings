@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  
+
+  Created by Antti Juustila on 16.6.2023.
+  
+*/
+
+"Male" = "Male";
+"Female" = "Female";
+"Other" = "Other";
+"Undefined" = "Undefined";
+
+"Valid PID: %@, born: %@, gender: %@" = "Valid PID: %@, born: %@, gender: %@";
+"Test PID: %@, born: %@, gender: %@" = "Test PID: %@, born: %@, gender: %@";
+"Invalid PID: %@" = "Invalid PID: %@";
+
