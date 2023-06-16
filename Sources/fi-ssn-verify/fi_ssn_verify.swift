@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SSNFiVerifier {
+public struct FiPIDVerifier {
 
 	private init() {
 		// Empty
@@ -19,22 +19,34 @@ public struct SSNFiVerifier {
 		case testSSN
 	}
 
-	public static func verify(ssn: String) -> SSNFiVerifier? {
+	public static func verify(ssn: String) -> FiPIDVerifier? {
+		var verifier = FiPIDVerifier()
 		guard ssn.count == 11 else {
-			return nil
+			return verifier
 		}
-		var verifier = SSNFiVerifier()
 		let centuryChar = ssn[ssn.index(ssn.startIndex, offsetBy: 6)]
-		if verifier.isValidCenturyChar(centuryChar) {
-			let date = verifier.dateFrom(dateString: String(ssn.prefix(6)), centuryChar: centuryChar)
+		guard verifier.isValidCenturyChar(centuryChar) else {
+			return verifier
+		}
+		if let date = verifier.dateFrom(dateString: String(ssn.prefix(6)), centuryChar: centuryChar) {
+			if verifier.isCorrectCheckChar(from: ssn) {
+				verifier.birthDay = date
+				let personNumberString = ssn.suffix(4).dropLast(1)
+				if let personNumber = Int(personNumberString) {
+					verifier.gender = personNumber % 2 == 0 ? .female : .male
+					if personNumber > 2 && personNumber < 900 {
+						verifier.validity = .validSSN
+					} else if personNumber >= 900 {
+						verifier.validity = .testSSN
+					}
+				}
+			}
 		}
 		return verifier
 	}
 
-	private (set) var isValid: Bool = false
-	private (set) var isTestSSN: Bool = false
+	private (set) var validity: Validity = .invalidSSN
 	private (set) var gender: Gender = .undefined
-
 	private (set) var birthDay: Date?
 
 	var year: Int? {
@@ -90,6 +102,18 @@ public struct SSNFiVerifier {
 										  "F": 2000
 										]
 
+	private let checkSumChars = "0123456789ABCDEFHJKLMNPRSTUVWXY"
+	private let checkSumDivider = 31
+
+	private func isCorrectCheckChar(from ssn: String) -> Bool {
+		let string = ssn.prefix(6) + ssn.suffix(4).dropLast(1)
+		guard string.allSatisfy( { $0.isNumber }), let checkSum = Int(string) else {
+			return false
+		}
+		let index = checkSum % checkSumDivider
+		return checkSumChars[checkSumChars.index(checkSumChars.startIndex, offsetBy: index)] == ssn.last
+	}
+
 	private mutating func dateFrom(dateString: String, centuryChar: Character) -> Date? {
 		guard dateString.count == 6 else {
 			return nil
@@ -106,11 +130,17 @@ public struct SSNFiVerifier {
 		if let day, let month, let year {
 			let calendar = Calendar(identifier: .gregorian)
 			let dateComponents = DateComponents(calendar: calendar, year: century + year, month: month, day: day)
-			return dateComponents.date
+			if dateComponents.isValidDate(in: calendar) {
+				return dateComponents.date
+			}
 		}
 		return nil
 	}
 
+	/// Checks if the provided character is a valid century character in a PID.
+	///
+	/// - Parameter character: A century character from the PID
+	/// - Returns: True if the character is a valid century character, false otherwise.
 	private func isValidCenturyChar(_ character: Character) -> Bool {
 		if centuryChars.keys.contains(String(character)) {
 			return true
@@ -118,6 +148,10 @@ public struct SSNFiVerifier {
 		return false
 	}
 
+	/// Returns a century for a specific century character in PID string.
+	///
+	/// - Parameter character: A character from the PID describing the century.
+	/// - Returns: Returns either 1800, 1900 or 2000.
 	private func centuryFromCenturyChar(_ character: Character) -> Int? {
 		centuryChars[String(character)]
 	}
