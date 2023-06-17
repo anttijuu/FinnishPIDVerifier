@@ -18,18 +18,37 @@ For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 
 ## Usage
 
+You can find an example on how to use the library in the `example` subdirectory.
+
 ```Swift
-let verifier = FinnishPIDVerifier.verify(pid: "010101-123N")
-if verifier.isValid {
-   print("Is a valid Finnish PID")
-} else {
-   print("Invalid Finnish PID!)
-}
-// prints:
-// Is a valid Finnish PID
-print(verifier)
-// prints (when locale is fi): 
-// Oikeellinen hetu: 010101-123N, syntynyt: 1.1.1901, sukupuoli: Mies
+	let verifier = FinnishPIDVerifier.verify(pid: pid)
+	switch verifier.validity {
+		case .validPID:
+			print("PID is valid Finnish PID")
+		case .invalidPID:
+			print("PID is invalid Finnish PID")
+		case .testPID:
+			print("PID is valid test PID")
+	}
+	if verifier.isValid {
+		print("PID is valid and not a test PID")
+		print("PID is for a person born in \(verifier.dateString!)")
+		print("Full date is \(verifier.birthDay!.formatted(date: .complete, time: .omitted))")
+		print("Gender of the PID holder is \(verifier.genderString)")
+		print("Date elements: day: \(verifier.day!) month: \(verifier.month!) year: \(verifier.year!)")
+	} else {
+		print("PID is either test PID or invalid")
+	}
+```
+Using a PID `010101-123N` as an input parameter prints:
+
+```
+PID is valid Finnish PID
+PID is valid and not a test PID
+PID is for a person born in 1.1.1901
+Full date is tiistaina 1. tammikuuta 1901
+Gender of the PID holder is Male
+Date elements: day: 1 month: 1 year: 1901
 ```
 
 The returned `verifier` struct has properties you can use to query the result from the verification:
@@ -63,7 +82,12 @@ Depends on Swift `Foundation`. Uses `swift-docc-plugin` to generate documentatio
 
 ## Using in your projects
 
-Add the depencendy to this package in your `Package.swift` using the URL to this repository, or using Xcode (File > Add Packages...).
+Add the depencendy to this package in your `Package.swift` using the URL to this repository:
+
+```Swift
+.package(url: "https://github.com/anttijuu/FinnishPIDVerifier.git", branch: "main"),
+```
+Alternatively, use Xcode (File > Add Packages...).
 
 
 ## License
