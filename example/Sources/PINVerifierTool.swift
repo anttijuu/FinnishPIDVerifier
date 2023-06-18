@@ -13,7 +13,7 @@ struct PINVerifierTool: ParsableCommand {
 	@Argument var pid: String
 
 	mutating func run() throws {
-		let verifier = FinnishPIDVerifier.verify(pid: pid)
+		let verifier = FPIDVerifier.verify(pid: pid)
 		switch verifier.validity {
 			case .validPID:
 				print("PID is valid Finnish PID")

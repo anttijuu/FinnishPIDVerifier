@@ -23,10 +23,10 @@ For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 
 ### Usage
 
-Use the struct ``FinnishPIDVerifier`` and the `verify(pid:)` method to verify a Finnish PID:
+Use the struct ``FPIDVerifier`` and the `verify(pid:)` method to verify a Finnish PID:
 
 ```Swift
-let verifier = FinnishPIDVerifier.verify(pid: "010101-123N")
+let verifier = FPIDVerifier.verify(pid: "010101-123N")
 if verifier.isValid {
 	print("Is a valid Finnish PID")
 } else {
@@ -63,5 +63,5 @@ Add the depencendy to this package in your `Package.swift` using the URL to this
 
 ### Getting started
 
-- ``FinnishPIDVerifier``
+- ``FPIDVerifier``
 

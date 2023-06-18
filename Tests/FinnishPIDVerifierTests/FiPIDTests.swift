@@ -37,10 +37,10 @@ final class FiPIDTests: XCTestCase {
 		
 	func testInvalidPIDs() throws {
 		for pid in invalidPIDs {
-			var verifier: FinnishPIDVerifier!
-			XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: pid))
+			var verifier: FPIDVerifier!
+			XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: pid))
 			XCTAssertNotNil(verifier)
-			XCTAssertEqual(FinnishPIDVerifier.Validity.invalidPID, verifier.validity)
+			XCTAssertEqual(FPIDVerifier.Validity.invalidPID, verifier.validity)
 			XCTAssertFalse(verifier.isValid)
 			print(verifier!)
 		}
@@ -48,10 +48,10 @@ final class FiPIDTests: XCTestCase {
 	
 	func testValidPIDs() throws {
 		for pid in validPIDs {
-			var verifier: FinnishPIDVerifier!
-			XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: pid))
+			var verifier: FPIDVerifier!
+			XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: pid))
 			XCTAssertNotNil(verifier)
-			XCTAssertEqual(FinnishPIDVerifier.Validity.validPID, verifier.validity)
+			XCTAssertEqual(FPIDVerifier.Validity.validPID, verifier.validity)
 			XCTAssertTrue(verifier.isValid)
 			print(verifier!)
 		}
@@ -59,53 +59,53 @@ final class FiPIDTests: XCTestCase {
 	
 	func testValidTestPIDs() throws {
 		for pid in validTestPIDs {
-			var verifier: FinnishPIDVerifier!
-			XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: pid))
+			var verifier: FPIDVerifier!
+			XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: pid))
 			XCTAssertNotNil(verifier)
-			XCTAssertEqual(FinnishPIDVerifier.Validity.testPID, verifier.validity)
-			XCTAssertTrue(verifier.gender != FinnishPIDVerifier.Gender.undefined)
-			XCTAssertTrue(verifier.gender != FinnishPIDVerifier.Gender.other)
+			XCTAssertEqual(FPIDVerifier.Validity.testPID, verifier.validity)
+			XCTAssertTrue(verifier.gender != FPIDVerifier.Gender.undefined)
+			XCTAssertTrue(verifier.gender != FPIDVerifier.Gender.other)
 			XCTAssertFalse(verifier.isValid)
 			print(verifier!)
 		}
 	}
 	
 	func testValidGender() throws {
-		var verifier: FinnishPIDVerifier!
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "210911+0785"))
+		var verifier: FPIDVerifier!
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "210911+0785"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.validPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Validity.validPID, verifier.validity)
 		XCTAssertTrue(verifier.isValid)
-		XCTAssertEqual(FinnishPIDVerifier.Gender.female, verifier.gender)
+		XCTAssertEqual(FPIDVerifier.Gender.female, verifier.gender)
 		print(verifier!)
 		
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "050301-679T"))
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "050301-679T"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.validPID, verifier.validity)
-		XCTAssertEqual(FinnishPIDVerifier.Gender.male, verifier.gender)
+		XCTAssertEqual(FPIDVerifier.Validity.validPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Gender.male, verifier.gender)
 		XCTAssertTrue(verifier.isValid)
 		print(verifier!)
 		
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "211123A965F"))
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "211123A965F"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.testPID, verifier.validity)
-		XCTAssertEqual(FinnishPIDVerifier.Gender.male, verifier.gender)
+		XCTAssertEqual(FPIDVerifier.Validity.testPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Gender.male, verifier.gender)
 		XCTAssertFalse(verifier.isValid)
 		print(verifier!)
 		
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "260503-998S"))
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "260503-998S"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.testPID, verifier.validity)
-		XCTAssertEqual(FinnishPIDVerifier.Gender.female, verifier.gender)
+		XCTAssertEqual(FPIDVerifier.Validity.testPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Gender.female, verifier.gender)
 		XCTAssertFalse(verifier.isValid)
 		print(verifier!)
 	}
 	
 	func testValidDate() throws {
-		var verifier: FinnishPIDVerifier!
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "210911+0785"))
+		var verifier: FPIDVerifier!
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "210911+0785"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.validPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Validity.validPID, verifier.validity)
 		XCTAssertEqual(21, verifier.day)
 		XCTAssertEqual(9, verifier.month)
 		XCTAssertEqual(1811, verifier.year)
@@ -117,9 +117,9 @@ final class FiPIDTests: XCTestCase {
 		}
 		print(verifier!)
 		
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "050301-679T"))
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "050301-679T"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.validPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Validity.validPID, verifier.validity)
 		XCTAssertEqual(5, verifier.day)
 		XCTAssertEqual(3, verifier.month)
 		XCTAssertEqual(1901, verifier.year)
@@ -131,9 +131,9 @@ final class FiPIDTests: XCTestCase {
 		}
 		print(verifier!)
 		
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "211123A965F"))
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "211123A965F"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.testPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Validity.testPID, verifier.validity)
 		XCTAssertEqual(21, verifier.day)
 		XCTAssertEqual(11, verifier.month)
 		XCTAssertEqual(2023, verifier.year)
@@ -145,9 +145,9 @@ final class FiPIDTests: XCTestCase {
 		}
 		print(verifier!)
 		
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "260503-998S"))
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "260503-998S"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.testPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Validity.testPID, verifier.validity)
 		XCTAssertEqual(26, verifier.day)
 		XCTAssertEqual(5, verifier.month)
 		XCTAssertEqual(1903, verifier.year)
@@ -159,9 +159,9 @@ final class FiPIDTests: XCTestCase {
 		}
 		print(verifier!)
 		
-		XCTAssertNoThrow(verifier = FinnishPIDVerifier.verify(pid: "261027C053H"))
+		XCTAssertNoThrow(verifier = FPIDVerifier.verify(pid: "261027C053H"))
 		XCTAssertNotNil(verifier)
-		XCTAssertEqual(FinnishPIDVerifier.Validity.validPID, verifier.validity)
+		XCTAssertEqual(FPIDVerifier.Validity.validPID, verifier.validity)
 		XCTAssertEqual(26, verifier.day)
 		XCTAssertEqual(10, verifier.month)
 		XCTAssertEqual(2027, verifier.year)
