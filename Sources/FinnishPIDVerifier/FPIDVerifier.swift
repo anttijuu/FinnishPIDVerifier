@@ -155,6 +155,9 @@ public struct FPIDVerifier {
 		}
 	}
 
+	/// Stored from parameter in `verify(pid:)` so that we can use it.
+	let pid: String
+
 	// MARK: - Private properties
 
 	/// Private initializer. Use the static method `verify(pid:)` to verify PIDs.
@@ -163,8 +166,6 @@ public struct FPIDVerifier {
 		self.pid = pid
 	}
 	
-	/// Saved from `verify(pid:)` so that we can print it out when needed.
-	private let pid: String
 
 	/// The different century characters and related century.
 	private let centuryChars = [ "+": 1800,
