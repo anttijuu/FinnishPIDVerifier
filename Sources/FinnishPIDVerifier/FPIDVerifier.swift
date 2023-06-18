@@ -77,6 +77,8 @@ public struct FPIDVerifier {
 		return verifier
 	}
 
+	/// Stored from parameter in `verify(pid:)` so that we can use it.
+	public let pid: String
 	/// The validity of the checked PID.
 	public private (set) var validity: Validity = .invalidPID
 	/// The gender of the person based on the PID.
@@ -154,9 +156,6 @@ public struct FPIDVerifier {
 			}
 		}
 	}
-
-	/// Stored from parameter in `verify(pid:)` so that we can use it.
-	let pid: String
 
 	// MARK: - Private properties
 

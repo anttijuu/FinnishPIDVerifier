@@ -31,5 +31,10 @@ struct PINVerifierTool: ParsableCommand {
 		} else {
 			print("PID is either test PID or invalid")
 		}
+
+		let constVerifier = FPIDVerifier.verify(pid: "010201-123N")
+		if constVerifier == verifier {
+			print("PIDs for \(verifier.) are ")
+		}
 	}
 }
