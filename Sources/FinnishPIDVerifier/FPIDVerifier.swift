@@ -77,7 +77,7 @@ public struct FPIDVerifier {
 		return verifier
 	}
 
-	/// Stored from parameter in `verify(pid:)` so that we can use it.
+	/// Stored from parameter in `verify(pid:)` so that we can use it later.
 	public let pid: String
 	/// The validity of the checked PID.
 	public private (set) var validity: Validity = .invalidPID
@@ -108,13 +108,13 @@ public struct FPIDVerifier {
 	public var genderString: String {
 		switch gender {
 			case .female:
-				return NSLocalizedString("Female", bundle: Bundle.module, comment: "Gender is female")
+				return NSLocalizedString("female", bundle: Bundle.module, comment: "Gender is female")
 			case .male:
-				return NSLocalizedString("Male", bundle: Bundle.module, comment: "Gender is male")
+				return NSLocalizedString("male", bundle: Bundle.module, comment: "Gender is male")
 			case .other:
-				return NSLocalizedString("Other", bundle: Bundle.module, comment: "Gender is other")
+				return NSLocalizedString("other", bundle: Bundle.module, comment: "Gender is other")
 			case .undefined:
-				return NSLocalizedString("Undefined", bundle: Bundle.module, comment: "Gender is undefined since PID was invalid")
+				return NSLocalizedString("undefined", bundle: Bundle.module, comment: "Gender is undefined since PID was invalid")
 		}
 	}
 	

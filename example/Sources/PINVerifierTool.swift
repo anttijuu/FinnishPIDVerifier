@@ -34,7 +34,9 @@ struct PINVerifierTool: ParsableCommand {
 
 		let constVerifier = FPIDVerifier.verify(pid: "010201-123N")
 		if constVerifier == verifier {
-			print("PIDs for \(verifier.) are ")
+			print("PIDs for \(verifier.pid) and \(constVerifier.pid) are same")
+		} else {
+			print("PIDs for \(verifier.pid) and \(constVerifier.pid) are different")
 		}
 	}
 }

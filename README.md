@@ -1,4 +1,4 @@
-# ``FinnishPIDVerifier``
+# FinnishPIDVerifier
 
 This Swift library verifies a Finnish Person ID (PID) strings (in Finnish: "henkilötunnus").
 
@@ -47,7 +47,7 @@ PID is valid Finnish PID
 PID is valid and not a test PID
 PID is for a person born in 1.1.1901
 Full date is tiistaina 1. tammikuuta 1901
-Gender of the PID holder is Male
+Gender of the PID holder is male
 Date elements: day: 1 month: 1 year: 1901
 ```
 
@@ -63,8 +63,8 @@ The returned `verifier` struct has properties you can use to query the result fr
 * `description`, providing a string representation of the verification, e.g. (in English locale):
 
 ```
-Valid PID 210911+0785: born: 21.9.1811, gender: Female
-Test PID: 211123A965F: born: 21.11.2023, gender: Male
+Valid PID 210911+0785: born: 21.9.1811, gender: female
+Test PID: 211123A965F: born: 21.11.2023, gender: male
 ```
 
 The library is localized to English and Finnish. Date formats are fixed, but `genderString` and `description` return strings for these languages.

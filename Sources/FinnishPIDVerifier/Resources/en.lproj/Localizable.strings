@@ -6,10 +6,10 @@
   
 */
 
-"Male" = "Male";
-"Female" = "Female";
-"Other" = "Other";
-"Undefined" = "Undefined";
+"male" = "male";
+"female" = "female";
+"other" = "other";
+"undefined" = "undefined";
 "VALID_PID_KEY" = "Valid PID: %@, born: %@, gender: %@";
 "TEST_PID_KEY" = "Test PID: %@, born: %@, gender: %@";
 "INVALID_PID_KEY" = "Invalid PID: %@";

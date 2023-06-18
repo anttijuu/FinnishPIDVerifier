@@ -6,10 +6,10 @@
   
 */
 
-"Male" = "Mies";
-"Female" = "Nainen";
-"Other" = "Muunsukupuolinen";
-"Undefined" = "Määrittelemätön";
+"male" = "mies";
+"female" = "nainen";
+"other" = "muunsukupuolinen";
+"undefined" = "määrittelemätön";
 "VALID_PID_KEY" = "Oikeellinen hetu: %@, syntynyt: %@, sukupuoli: %@";
 "TEST_PID_KEY" = "Testi-hetu: %@, syntynyt: %@, sukupuoli: %@";
 "INVALID_PID_KEY" = "Virheellinen hetu: %@";

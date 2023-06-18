@@ -36,7 +36,7 @@ if verifier.isValid {
 // Is a valid Finnish PID
 print(verifier)
 // prints (when locale is fi): 
-// Oikeellinen hetu: 010101-123N, syntynyt: 1.1.1901, sukupuoli: Mies
+// Oikeellinen hetu: 010101-123N, syntynyt: 1.1.1901, sukupuoli: mies
 ```
 
 The returned `verifier` struct has properties you can use to query the result from the verification:
@@ -51,8 +51,8 @@ The returned `verifier` struct has properties you can use to query the result fr
 * `description`, providing a string representation of the verification, e.g. (in English locale):
 
 ```
-Valid PID 210911+0785: born: 21.9.1811, gender: Female
-Test PID: 211123A965F: born: 21.11.2023, gender: Male
+Valid PID 210911+0785: born: 21.9.1811, gender: female
+Test PID: 211123A965F: born: 21.11.2023, gender: male
 ```
 
 The library is localized to English and Finnish. Date formats are fixed, but `genderString` and `description` return strings for these languages.
