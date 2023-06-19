@@ -21,24 +21,24 @@ For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 You can find an example on how to use the library in the `example` subdirectory.
 
 ```Swift
-	let verifier = FinnishPID.verify(pid: pid)
-	switch verifier.validity {
-		case .validPID:
-			print("PID is valid Finnish PID")
-		case .invalidPID:
-			print("PID is invalid Finnish PID")
-		case .testPID:
-			print("PID is valid test PID")
-	}
-	if verifier.isValid {
-		print("PID is valid and not a test PID")
-		print("PID is for a person born in \(verifier.dateString!)")
-		print("Full date is \(verifier.birthDay!.formatted(date: .complete, time: .omitted))")
-		print("Gender of the PID holder is \(verifier.genderString)")
-		print("Date elements: day: \(verifier.day!) month: \(verifier.month!) year: \(verifier.year!)")
-	} else {
-		print("PID is either test PID or invalid")
-	}
+let verifier = FinnishPID.verify(pid: pid)
+switch verifier.validity {
+	case .validPID:
+		print("PID is valid Finnish PID")
+	case .invalidPID:
+		print("PID is invalid Finnish PID")
+	case .testPID:
+		print("PID is valid test PID")
+}
+if verifier.isValid {
+	print("PID is valid and not a test PID")
+	print("PID is for a person born in \(verifier.dateString!)")
+	print("Full date is \(verifier.birthDay!.formatted(date: .complete, time: .omitted))")
+	print("Gender of the PID holder is \(verifier.genderString)")
+	print("Date elements: day: \(verifier.day!) month: \(verifier.month!) year: \(verifier.year!)")
+} else {
+	print("PID is either test PID or invalid")
+}
 ```
 Using a PID `010101-123N` as an input parameter prints:
 
