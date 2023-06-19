@@ -79,7 +79,7 @@ public struct FinnishPID {
 		return verifier
 	}
 
-	/// Stored from parameter in `verify(pid:)` so that we can use it later.
+	/// Stored as is from the parameter of `verify(pid:)`.
 	public let pid: String
 	/// The validity of the checked PID.
 	public private (set) var validity: Validity = .invalidPID
@@ -95,7 +95,7 @@ public struct FinnishPID {
 		}
 	}
 	
-	/// The birthdate of the person in format "mm.dd.yyyy" or nil if invalid PID.
+	/// The birthdate of the person in format "dd.mm.yyyy" or nil if invalid PID.
 	public var dateString: String? {
 		get {
 			if validity == .validPID || validity == .testPID {
@@ -106,7 +106,7 @@ public struct FinnishPID {
 		}
 	}
 	
-	/// The gender of the person based on PID in English.
+	/// The gender of the person based on PID as a localized string.
 	public var genderString: String {
 		switch gender {
 			case .female:
