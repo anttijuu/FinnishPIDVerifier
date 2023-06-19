@@ -43,7 +43,7 @@ The returned `verifier` struct has properties you can use to query the result fr
 
 * `isValid`, is `true` if the PID was a valid PID not in the test range.
 * `validity` enumeration `Validity`, either `validPID`, `invalidPID` or `testPID`.
-* `gender` enumeration `Gender`, either `.female`, `.male` or `.undefined` if not a valid PID. Has also value `.other` but that is not used in Finnish PIDs.
+* `gender` enumeration `Gender`, either `.female`, `.male` or `.undefined` if not a valid PID.
 * `birthDay`, a `Date` object or `nil` if PID was not valid.
 * `dateString`, the birthday of the person in format "dd.mm.yyyy" or `nil` if PID is not valid nor test PID.
 * `genderString`, the gender of the person as a string.
@@ -59,7 +59,13 @@ The library is localized to English and Finnish. Date formats are fixed, but `ge
 
 ### Using in your projects
 
-Add the depencendy to this package in your `Package.swift` using the URL to this repository, or using Xcode (File > Add Packages...).
+Add the depencendy to this package in your `Package.swift` using the URL to this repository:
+
+```Swift
+.package(url: "https://github.com/anttijuu/FinnishPIDVerifier.git", branch: "main"),
+```
+
+Alternatively, use Xcode: File > Add Packages....
 
 ### Getting started
 
