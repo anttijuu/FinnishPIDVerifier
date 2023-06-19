@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// FPIDVerifier implements the `Equatable` conformance by comparing the PIDs.
-extension FPIDVerifier: Equatable {
+/// FPIDVerifier implements the `Comparable` conformance by comparing the PIDs.
+extension FPIDVerifier: Comparable {
 
 	/// Compares if two PIDs are the same.
 	///
@@ -19,13 +19,13 @@ extension FPIDVerifier: Equatable {
 		return lhs.pid == rhs.pid
 	}
 
-	/// Compares if two PIDs are different.
-	///
-	/// - Parameter lsh: Left hand side variable.
-	/// - Parameter rhs: Right hand side variable.
-	/// - Returns: True if the PIDs are different PIDs.
-	public static func != (lhs: FPIDVerifier, rhs: FPIDVerifier) -> Bool {
-		return lhs.pid != rhs.pid
+	public static func < (lhs: FPIDVerifier, rhs: FPIDVerifier) -> Bool {
+		guard lhs.validity == .validPID && rhs.validity == .validPID else {
+			return false
+		}
+		guard lhs.birthDay != rhs.birthDay else {
+			return lhs.birthDay! < rhs.birthDay!
+		}
+		let lhsPersonNumber = lhs.pid.suffix(4)
 	}
-
 }

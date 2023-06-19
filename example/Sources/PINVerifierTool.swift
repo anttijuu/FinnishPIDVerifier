@@ -7,6 +7,9 @@
 import ArgumentParser
 import FinnishPIDVerifier
 
+/// An example for how to use the `FPIDVerifier`.
+/// Note that this command line tool is not localized, contrary to `FinnishPIDVerifier` library,
+/// so do not expect correct locale specific output from here.
 @main
 struct PINVerifierTool: ParsableCommand {
 
