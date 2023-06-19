@@ -16,7 +16,7 @@ struct PINVerifierTool: ParsableCommand {
 	@Argument var pid: String
 
 	mutating func run() throws {
-		let verifier = FPIDVerifier.verify(pid: pid)
+		let verifier = FinnishPID.verify(pid: pid)
 		switch verifier.validity {
 			case .validPID:
 				print("PID is valid Finnish PID")
@@ -35,11 +35,16 @@ struct PINVerifierTool: ParsableCommand {
 			print("PID is either test PID or invalid")
 		}
 
-		let constVerifier = FPIDVerifier.verify(pid: "010201-123N")
+		let constVerifier = FinnishPID.verify(pid: "210911+0785")
 		if constVerifier == verifier {
 			print("PIDs for \(verifier.pid) and \(constVerifier.pid) are same")
 		} else {
 			print("PIDs for \(verifier.pid) and \(constVerifier.pid) are different")
+		}
+		if constVerifier < verifier {
+			print("\(constVerifier) is before \(verifier)")
+		} else {
+			print("\(verifier) is before \(constVerifier)")
 		}
 	}
 }

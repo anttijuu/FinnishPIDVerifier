@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  FinnishPID+Equatable.swift
 //  
 //
 //  Created by Antti Juustila on 18.6.2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// FPIDVerifier implements the `Comparable` conformance by comparing the PIDs.
+/// FinnishPID implements the `Comparable` conformance by comparing the PIDs.
 extension FinnishPID: Comparable {
 
 	/// Compares if two PIDs are the same.

@@ -1,6 +1,12 @@
+//
+//  FinnishPID+Equatable.swift
+//
+//
+//  Created by Antti Juustila on 18.6.2023.
+//
 import Foundation
 
-/// `FPIDVerifier` verifies Finnish Person ID strings.
+/// `FinnishPID` verifies Finnish Person ID strings.
 /// 
 /// The string format is `ddmmyyAnnnX`, where:
 /// * dd is the day of birth
@@ -10,7 +16,7 @@ import Foundation
 /// * nnn is the daily number given to persons born on that day. Values >= 900 are used for test PIDs only. Even numbers are for females, odd numbers for males.
 /// * X is a control character, calculated from ddmmyynnn and using a lookup table.
 ///
-/// The function `FPIDVerifier.verify(pid:)` returns an object that you can use to check for validity, using properties such as:
+/// The function `FinnishPID.verify(pid:)` returns an object that you can use to check for validity, using properties such as:
 /// * validity
 /// * gender
 /// * birthDay and
@@ -45,7 +51,7 @@ public struct FinnishPID {
 	/// Use this function to verify if a Finnish PID is valid or not.
 	///
 	/// - Parameter pid: The string to verify
-	/// - Returns: A FPIDVerifier object you can use to check the properties of the verified pid.
+	/// - Returns: A FinnishPID object you can use to check the properties of the verified pid.
 	public static func verify(pid: String) -> FinnishPID {
 		var verifier = FinnishPID(pid: pid)
 		guard pid.count == 11 else {
@@ -163,7 +169,7 @@ public struct FinnishPID {
 		self.pid = pid
 	}
 	
-	
+	/// Needed in calendar/date related operations, Gregorian calendar used.
 	private static let calendar = Calendar(identifier: .gregorian)
 
 	/// The different century characters and related century.
