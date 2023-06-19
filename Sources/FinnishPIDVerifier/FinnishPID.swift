@@ -18,7 +18,7 @@ import Foundation
 ///
 /// For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 ///
-public struct FPIDVerifier {
+public struct FinnishPID {
 
 	// MARK: - Public interface
 	
@@ -33,7 +33,6 @@ public struct FPIDVerifier {
 	}
 	
 	/// Gender enumeration.
-	/// Since the Finnish PID system only uses male and female, the `other` case is not used.
 	public enum Gender {
 		/// The validity has not yet been determined.
 		case undefined
@@ -41,16 +40,14 @@ public struct FPIDVerifier {
 		case male
 		/// PID is for a female person.
 		case female
-		/// Not used.
-		case other
 	}
 	
 	/// Use this function to verify if a Finnish PID is valid or not.
 	///
 	/// - Parameter pid: The string to verify
 	/// - Returns: A FPIDVerifier object you can use to check the properties of the verified pid.
-	public static func verify(pid: String) -> FPIDVerifier {
-		var verifier = FPIDVerifier(pid: pid)
+	public static func verify(pid: String) -> FinnishPID {
+		var verifier = FinnishPID(pid: pid)
 		guard pid.count == 11 else {
 			return verifier
 		}
@@ -61,8 +58,7 @@ public struct FPIDVerifier {
 		if let date = verifier.dateFrom(dateString: String(pid.prefix(6)), centuryChar: centuryChar) {
 			if verifier.isCorrectCheckChar(from: pid) {
 				verifier.birthDay = date
-				let personNumberString = pid.suffix(4).dropLast(1)
-				if let personNumber = Int(personNumberString) {
+				if let personNumber = verifier.dailyNumber {
 					verifier.gender = personNumber % 2 == 0 ? .female : .male
 					if personNumber >= 2 && personNumber <= 899 {
 						verifier.validity = .validPID
@@ -111,8 +107,6 @@ public struct FPIDVerifier {
 				return NSLocalizedString("female", bundle: Bundle.module, comment: "Gender is female")
 			case .male:
 				return NSLocalizedString("male", bundle: Bundle.module, comment: "Gender is male")
-			case .other:
-				return NSLocalizedString("other", bundle: Bundle.module, comment: "Gender is other")
 			case .undefined:
 				return NSLocalizedString("undefined", bundle: Bundle.module, comment: "Gender is undefined since PID was invalid")
 		}
@@ -122,8 +116,7 @@ public struct FPIDVerifier {
 	public var year: Int? {
 		get {
 			if let birthDay {
-				let calendar = Calendar(identifier: .gregorian)
-				let dateComponens = calendar.dateComponents([.year], from: birthDay)
+				let dateComponens = FinnishPID.calendar.dateComponents([.year], from: birthDay)
 				return dateComponens.year
 			} else {
 				return nil
@@ -135,8 +128,7 @@ public struct FPIDVerifier {
 	public var month: Int? {
 		get {
 			if let birthDay {
-				let calendar = Calendar(identifier: .gregorian)
-				let dateComponens = calendar.dateComponents([.month], from: birthDay)
+				let dateComponens = FinnishPID.calendar.dateComponents([.month], from: birthDay)
 				return dateComponens.month
 			} else {
 				return nil
@@ -148,12 +140,18 @@ public struct FPIDVerifier {
 	public var day: Int? {
 		get {
 			if let birthDay {
-				let calendar = Calendar(identifier: .gregorian)
-				let dateComponens = calendar.dateComponents([.day], from: birthDay)
+				let dateComponens = FinnishPID.calendar.dateComponents([.day], from: birthDay)
 				return dateComponens.day
 			} else {
 				return nil
 			}
+		}
+	}
+	
+	/// The sequence number for this PID among the daily count of persons born on the same day, or nil if not a valid PID.
+	public var dailyNumber: Int? {
+		get {
+			return Int(String(pid.suffix(4)).prefix(3))
 		}
 	}
 
@@ -165,6 +163,8 @@ public struct FPIDVerifier {
 		self.pid = pid
 	}
 	
+	
+	private static let calendar = Calendar(identifier: .gregorian)
 
 	/// The different century characters and related century.
 	private let centuryChars = [ "+": 1800,
@@ -221,9 +221,8 @@ public struct FPIDVerifier {
 		let month = Int(dateString.dropFirst(2).prefix(2))
 		let year = Int(dateString.dropFirst(4).prefix(2))
 		if let day, let month, let year {
-			let calendar = Calendar(identifier: .gregorian)
-			let dateComponents = DateComponents(calendar: calendar, year: century + year, month: month, day: day)
-			if dateComponents.isValidDate(in: calendar) {
+			let dateComponents = DateComponents(calendar: FinnishPID.calendar, year: century + year, month: month, day: day)
+			if dateComponents.isValidDate(in: FinnishPID.calendar) {
 				return dateComponents.date
 			}
 		}
@@ -251,7 +250,7 @@ public struct FPIDVerifier {
 }
 
 /// Provides a localized  summary of the verification.
-extension FPIDVerifier: CustomStringConvertible {
+extension FinnishPID: CustomStringConvertible {
 	public var description: String {
 		switch validity {
 			case .validPID:

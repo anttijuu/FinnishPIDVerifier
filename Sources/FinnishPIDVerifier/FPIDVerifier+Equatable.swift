@@ -8,24 +8,40 @@
 import Foundation
 
 /// FPIDVerifier implements the `Comparable` conformance by comparing the PIDs.
-extension FPIDVerifier: Comparable {
+extension FinnishPID: Comparable {
 
 	/// Compares if two PIDs are the same.
 	///
 	/// - Parameter lsh: Left hand side variable.
 	/// - Parameter rhs: Right hand side variable.
 	/// - Returns: True if the PIDs are the same PID.
-	public static func == (lhs: FPIDVerifier, rhs: FPIDVerifier) -> Bool {
+	public static func == (lhs: FinnishPID, rhs: FinnishPID) -> Bool {
 		return lhs.pid == rhs.pid
 	}
 
-	public static func < (lhs: FPIDVerifier, rhs: FPIDVerifier) -> Bool {
+	
+	/// Compares the birthDays and daily person numbers of a valid PID.
+	///
+	/// Comparison is done for valid PIDs so that a person born earlier is smaller. If the birthdays
+	/// are the same, the sequence number of persons born that day is compared, smaller number
+	/// coming first.
+	///
+	/// If sorting a container that has test or invalid PIDs, they are left at the end, unsorted.
+	///
+	/// - Parameters:
+	///   - lhs: Left side PID to compare.
+	///   - rhs: Right side PID to compare.
+	/// - Returns: True if left side is smaller than right side.
+	public static func < (lhs: FinnishPID, rhs: FinnishPID) -> Bool {
 		guard lhs.validity == .validPID && rhs.validity == .validPID else {
 			return false
 		}
-		guard lhs.birthDay != rhs.birthDay else {
+		guard lhs.birthDay == rhs.birthDay else {
 			return lhs.birthDay! < rhs.birthDay!
 		}
-		let lhsPersonNumber = lhs.pid.suffix(4)
+		if let lhsPersonNumber = lhs.dailyNumber, let rhsPersonNumber = rhs.dailyNumber {
+			return lhsPersonNumber < rhsPersonNumber
+		}
+		return false
 	}
 }

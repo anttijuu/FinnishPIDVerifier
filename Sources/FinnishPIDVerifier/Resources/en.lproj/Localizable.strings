@@ -8,7 +8,6 @@
 
 "male" = "male";
 "female" = "female";
-"other" = "other";
 "undefined" = "undefined";
 "VALID_PID_KEY" = "Valid PID: %@, born: %@, gender: %@";
 "TEST_PID_KEY" = "Test PID: %@, born: %@, gender: %@";
