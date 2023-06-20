@@ -67,7 +67,7 @@ Valid PID 210911+0785: born: 21.9.1811, gender: female
 Test PID: 211123A965F: born: 21.11.2023, gender: male
 ```
 
-The library is localized to English and Finnish. Date formats are fixed, but `genderString` and `description` return strings for these languages.
+The library is localized for Finnish, Swedish and English. Date formats are fixed, but `genderString` and `description` return strings for these languages.
 
 
 ## Tests

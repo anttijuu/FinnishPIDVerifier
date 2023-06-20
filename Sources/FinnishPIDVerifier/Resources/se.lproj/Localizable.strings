@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  
+
+  Created by Antti Juustila on 16.6.2023.
+  
+*/
+
+"male" = "man";
+"female" = "kvinna";
+"undefined" = "obestämd";
+"VALID_PID_KEY" = "Rätt personbeteckningen: %@, född: %@, kön: %@";
+"TEST_PID_KEY" = "Test personbeteckningen: %@, född: %@, kön: %@";
+"INVALID_PID_KEY" = "felaktig personbeteckningen: %@";
