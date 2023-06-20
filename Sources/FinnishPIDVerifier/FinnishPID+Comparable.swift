@@ -1,5 +1,5 @@
 //
-//  FinnishPID+Equatable.swift
+//  FinnishPID+Comparable.swift
 //  
 //
 //  Created by Antti Juustila on 18.6.2023.
@@ -39,8 +39,8 @@ extension FinnishPID: Comparable {
 		guard lhs.birthDay == rhs.birthDay else {
 			return lhs.birthDay! < rhs.birthDay!
 		}
-		if let lhsPersonNumber = lhs.dailyNumber, let rhsPersonNumber = rhs.dailyNumber {
-			return lhsPersonNumber < rhsPersonNumber
+		if let lhsIndividualNumber = lhs.individualNumber, let rhsIndividualNumber = rhs.individualNumber {
+			return lhsIndividualNumber < rhsIndividualNumber
 		}
 		return false
 	}

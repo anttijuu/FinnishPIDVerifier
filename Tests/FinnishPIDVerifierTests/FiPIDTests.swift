@@ -33,7 +33,8 @@ final class FiPIDTests: XCTestCase {
 						  "261027A053H",
 						  "050301-679T",
 						  "050301Y679T",
-						  "161001-154L"]
+						  "161001-154L",
+						  "131052-308T"]
 		
 	func testInvalidPIDs() throws {
 		for pid in invalidPIDs {
@@ -178,15 +179,19 @@ final class FiPIDTests: XCTestCase {
 		for pid in validPIDs {
 			pids.append(FinnishPID.verify(pid: pid))
 		}
-		for pid in validTestPIDs {
-			pids.append(FinnishPID.verify(pid: pid))
-		}
-		for pid in invalidPIDs {
-			pids.append(FinnishPID.verify(pid: pid))
-		}
 		pids = pids.sorted()
+		var previousDate: Date?
+		var previousPersonNumber: Int?
 		for pid in pids {
 			print(pid)
+			if let previousDate, let currentDate = pid.birthDay {
+				XCTAssertLessThanOrEqual(previousDate, currentDate)
+				if previousDate == currentDate, let previousPersonNumber, let currentNumber = pid.individualNumber {
+					XCTAssertLessThanOrEqual(previousPersonNumber, currentNumber)
+				}
+			}
+			previousDate = pid.birthDay
+			previousPersonNumber = pid.individualNumber
 		}
 	}
 }

@@ -62,9 +62,9 @@ public struct FinnishPID {
 			return verifier
 		}
 		if let date = verifier.dateFrom(dateString: String(pid.prefix(6)), centuryChar: centuryChar) {
-			if verifier.isCorrectCheckChar(from: pid) {
+			if verifier.isCorrectControlChar(from: pid) {
 				verifier.birthDay = date
-				if let personNumber = verifier.dailyNumber {
+				if let personNumber = verifier.individualNumber {
 					verifier.gender = personNumber % 2 == 0 ? .female : .male
 					if personNumber >= 2 && personNumber <= 899 {
 						verifier.validity = .validPID
@@ -154,8 +154,8 @@ public struct FinnishPID {
 		}
 	}
 	
-	/// The sequence number for this PID among the daily count of persons born on the same day, or nil if not a valid PID.
-	public var dailyNumber: Int? {
+	/// The individual sequence number for this PID among the persons born on the same day, or nil if not a valid PID.
+	public var individualNumber: Int? {
 		get {
 			return Int(String(pid.suffix(4)).prefix(3))
 		}
@@ -196,7 +196,7 @@ public struct FinnishPID {
 	/// From a PID, checks if the last control character in the pid is correct.
 	/// - Parameter pid: The whole PID string.
 	/// - Returns: True if the control character was correct.
-	private func isCorrectCheckChar(from pid: String) -> Bool {
+	private func isCorrectControlChar(from pid: String) -> Bool {
 		let string = pid.prefix(6) + pid.suffix(4).dropLast(1)
 		guard string.allSatisfy( { $0.isNumber }), let checkSum = Int(string) else {
 			return false
@@ -213,7 +213,7 @@ public struct FinnishPID {
 	///   - dateString: The date part of the PID string
 	///   - centuryChar: The century character from PID.
 	/// - Returns: A date of birth based on the PID, or null if PID does not contain a valid date.
-	private mutating func dateFrom(dateString: String, centuryChar: Character) -> Date? {
+	private func dateFrom(dateString: String, centuryChar: Character) -> Date? {
 		guard dateString.count == 6 else {
 			return nil
 		}
@@ -240,10 +240,7 @@ public struct FinnishPID {
 	/// - Parameter character: A century character from the PID
 	/// - Returns: True if the character is a valid century character, false otherwise.
 	private func isValidCenturyChar(_ character: Character) -> Bool {
-		if centuryChars.keys.contains(String(character)) {
-			return true
-		}
-		return false
+		centuryChars.keys.contains(String(character))
 	}
 
 	/// Returns a century for a specific century character in PID string.
@@ -266,7 +263,7 @@ extension FinnishPID: CustomStringConvertible {
 				let format = NSLocalizedString("TEST_PID_KEY", bundle: Bundle.module, value: "Test PID: %@, born: %@, gender: %@", comment: "A string with variables PID, date and gender")
 				return String.localizedStringWithFormat(format, pid, dateString!, genderString)
 			case .invalidPID:
-				let format = NSLocalizedString("INVALID_PID_KEY", bundle: Bundle.module, value: "Invalid PID: \(pid)", comment: "Invalid value for the PID")
+				let format = NSLocalizedString("INVALID_PID_KEY", bundle: Bundle.module, value: "Invalid PID: %@", comment: "Invalid value for the PID")
 				return String.localizedStringWithFormat(format, pid)
 		}
 	}
