@@ -23,9 +23,9 @@ For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 
 ### Usage
 
-Use the struct ``FinnishPID`` and the `verify(pid:)` method to verify a Finnish PID:
+Use the struct ``FinnishPID`` and the `FinnishPID.verify(pid:)` method to verify a Finnish PID:
 
-```Swift
+```swift
 let verifier = FinnishPID.verify(pid: "010101-123N")
 if verifier.isValid {
 	print("Is a valid Finnish PID")
@@ -55,7 +55,7 @@ Valid PID 210911+0785: born: 21.9.1811, gender: female
 Test PID: 211123A965F: born: 21.11.2023, gender: male
 ```
 
-The library is localized to English and Finnish. Date formats are fixed, but `genderString` and `description` return strings for these languages.
+The library is localized to Finnish, Swedish and English. Date formats are fixed, but `genderString` and `description` return strings for these languages.
 
 ### Using in your projects
 

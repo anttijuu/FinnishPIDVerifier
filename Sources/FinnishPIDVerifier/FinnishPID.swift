@@ -22,6 +22,15 @@ import Foundation
 /// * birthDay and
 /// * day, month and year
 ///
+/// Use the struct by calling the static `verify(pid:)` function:
+/// ```swift
+/// let verifier = FinnishPID.verify(pid: "010101-123N")
+/// if verifier.isValid {
+///    print("Is a valid Finnish PID")
+/// } else {
+///    print("Invalid Finnish PID!)
+/// }
+/// ```
 /// For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 ///
 public struct FinnishPID {
