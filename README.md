@@ -20,7 +20,7 @@ For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 
 You can find an example on how to use the library in the `example` subdirectory.
 
-```Swift
+```swift
 let verifier = FinnishPID.verify(pid: pid)
 switch verifier.validity {
 	case .validPID:
