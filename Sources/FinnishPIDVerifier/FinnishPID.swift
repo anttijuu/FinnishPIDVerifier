@@ -8,7 +8,7 @@ import Foundation
 
 /// `FinnishPID` verifies Finnish Person ID strings.
 /// 
-/// The string format is `ddmmyyAnnnX`, where:
+/// The Finnish PIDs are strings in format `ddmmyyAnnnX`, where:
 /// * dd is the day of birth
 /// * mm is the month of birth
 /// * yy is the last two digits of the year of birth
@@ -16,13 +16,13 @@ import Foundation
 /// * nnn is the daily number given to persons born on that day. Values >= 900 are used for test PIDs only. Even numbers are for females, odd numbers for males.
 /// * X is a control character, calculated from ddmmyynnn and using a lookup table.
 ///
-/// The function `FinnishPID.verify(pid:)` returns an object that you can use to check for validity, using properties such as:
+/// The type method `FinnishPID.verify(pid:)` returns an object that you can use to check for validity, using properties such as:
 /// * validity
 /// * gender
 /// * birthDay and
 /// * day, month and year
 ///
-/// Use the struct by calling the static `verify(pid:)` function:
+/// Use the struct by calling the type method `verify(pid:)`:
 /// ```swift
 /// let verifier = FinnishPID.verify(pid: "010101-123N")
 /// if verifier.isValid {
@@ -57,7 +57,7 @@ public struct FinnishPID {
 		case female
 	}
 	
-	/// Use this function to verify if a Finnish PID is valid or not.
+	/// Use this type method to verify if a Finnish PID is valid or not.
 	///
 	/// - Parameter pid: The string to verify
 	/// - Returns: A FinnishPID object you can use to check the properties of the verified pid.
