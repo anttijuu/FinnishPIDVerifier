@@ -163,10 +163,19 @@ public struct FinnishPID {
 		}
 	}
 	
-	/// The individual sequence number for this PID among the persons born on the same day, or nil if not a valid PID.
+	/// The individual sequence number for this PID among the persons born on the same day.
+	///
+	/// Returned value is nil if PID length is invalid, or number is not a valid integer in the valid range (for valid and test PIDs).
 	public var individualNumber: Int? {
 		get {
-			return Int(String(pid.suffix(4)).prefix(3))
+			if pid.count == 11 {
+				if let number = Int(String(pid.suffix(4)).prefix(3)) {
+					if number >= 2 && number <= 999 {
+						return number
+					}
+				}
+			}
+			return nil
 		}
 	}
 

@@ -41,8 +41,15 @@ final class FiPIDTests: XCTestCase {
 			var verifier: FinnishPID!
 			XCTAssertNoThrow(verifier = FinnishPID.verify(pid: pid))
 			XCTAssertNotNil(verifier)
+			XCTAssertEqual(verifier.pid, pid)
 			XCTAssertEqual(FinnishPID.Validity.invalidPID, verifier.validity)
 			XCTAssertFalse(verifier.isValid)
+			XCTAssertNil(verifier.birthDay)
+			XCTAssertNil(verifier.day)
+			XCTAssertNil(verifier.month)
+			XCTAssertNil(verifier.year)
+			XCTAssertNil(verifier.dateString)
+			XCTAssertEqual(verifier.gender, FinnishPID.Gender.undefined)
 			print(verifier!)
 		}
 	}
@@ -52,8 +59,11 @@ final class FiPIDTests: XCTestCase {
 			var verifier: FinnishPID!
 			XCTAssertNoThrow(verifier = FinnishPID.verify(pid: pid))
 			XCTAssertNotNil(verifier)
+			XCTAssertEqual(verifier.pid, pid)
 			XCTAssertEqual(FinnishPID.Validity.validPID, verifier.validity)
 			XCTAssertTrue(verifier.isValid)
+			XCTAssertNotNil(verifier.individualNumber)
+			XCTAssertTrue(verifier.individualNumber! >= 2 && verifier.individualNumber! < 900)
 			print(verifier!)
 		}
 	}
@@ -63,9 +73,12 @@ final class FiPIDTests: XCTestCase {
 			var verifier: FinnishPID!
 			XCTAssertNoThrow(verifier = FinnishPID.verify(pid: pid))
 			XCTAssertNotNil(verifier)
+			XCTAssertEqual(verifier.pid, pid)
 			XCTAssertEqual(FinnishPID.Validity.testPID, verifier.validity)
 			XCTAssertTrue(verifier.gender != FinnishPID.Gender.undefined)
 			XCTAssertFalse(verifier.isValid)
+			XCTAssertNotNil(verifier.individualNumber)
+			XCTAssertTrue(verifier.individualNumber! >= 900 && verifier.individualNumber! <= 999)
 			print(verifier!)
 		}
 	}
@@ -193,5 +206,24 @@ final class FiPIDTests: XCTestCase {
 			previousDate = pid.birthDay
 			previousPersonNumber = pid.individualNumber
 		}
+	}
+
+	func testEqualness() {
+		var verifierA: FinnishPID!
+		XCTAssertNoThrow(verifierA = FinnishPID.verify(pid: "210911+0785"))
+		XCTAssertNotNil(verifierA)
+
+		var verifierB: FinnishPID!
+		XCTAssertNoThrow(verifierB = FinnishPID.verify(pid: "210911+0785"))
+		XCTAssertNotNil(verifierB)
+
+		XCTAssertEqual(verifierA, verifierB)
+
+		var verifierC: FinnishPID!
+		XCTAssertNoThrow(verifierC
+					= FinnishPID.verify(pid: "261027C053H"))
+		XCTAssertNotNil(verifierC)
+		XCTAssertNotEqual(verifierA, verifierC)
+		XCTAssertNotEqual(verifierB, verifierC)
 	}
 }
