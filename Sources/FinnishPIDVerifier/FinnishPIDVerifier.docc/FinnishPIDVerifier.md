@@ -21,43 +21,39 @@ For details, see [https://dvv.fi/henkilotunnus](https://dvv.fi/henkilotunnus).
 
 ## Topics
 
-### Usage
+### Getting started
 
 Use the struct ``FinnishPID`` and the `FinnishPID.verify(pid:)` method to verify a Finnish PID:
 
 ```swift
 let verifier = FinnishPID.verify(pid: "010101-123N")
 if verifier.isValid {
-	print("Is a valid Finnish PID")
+   print("Is a valid Finnish PID")
 } else {
-	print("Invalid Finnish PID!)
+   print("Invalid Finnish PID!)
 }
-// prints:
-// Is a valid Finnish PID
+/// prints:
+/// Is a valid Finnish PID
 print(verifier)
-// prints (when locale is fi): 
-// Oikeellinen hetu: 010101-123N, syntynyt: 1.1.1901, sukupuoli: mies
+/// prints (when locale is fi): 
+/// Oikeellinen hetu: 010101-123N, syntynyt: 1.1.1901, sukupuoli: mies
 ```
 
 The returned `verifier` struct has properties you can use to query the result from the verification. See the ``FinnishPID`` struct documentation for details
 
 The library is localized in Finnish, Swedish and English. Date formats are fixed, but `genderString` and `description` return strings for these languages.
 
-### Generating PIDs
-
 The library also includes a generator to generate valid and test PIDs. Use the `FinnishPIDGenerator` to generate PIDs for testing and development.
 
-### Using in your projects
 
 Add the depencendy to this package in your `Package.swift` using the URL to this repository:
 
 ```Swift
-.package(url: "https://github.com/anttijuu/FinnishPIDVerifier.git", branch: "main"),
+   .package(url: "https://github.com/anttijuu/FinnishPIDVerifier.git", branch: "main"),
 ```
 
 Alternatively, use Xcode: File > Add Packages....
 
-### Getting started
 
 - ``FinnishPID``
 - ``FinnishPIDGenerator``

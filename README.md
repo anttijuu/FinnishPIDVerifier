@@ -72,6 +72,11 @@ Test PID: 211123A965F: born: 21.11.2023, gender: male
 
 The library is localized for Finnish, Swedish and English. Date formats are fixed, but `genderString` and `description` return strings for these languages.
 
+## Generating PIDs
+
+The struct `FinnishPIDGenerator` can be used to generate valid and test PIDs.
+
+See details from the generator docs and tests in `FiPIDGeneratorTests.swift`.
 
 ## Tests
 

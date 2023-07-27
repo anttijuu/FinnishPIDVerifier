@@ -20,9 +20,9 @@ import Foundation
 /// Where the range must be a range of valid years to generate PIDs for. The lowest possible year is 1800 while
 /// the upper limit is 2099 (inclusive).
 ///
-/// To generate an array of PID strings having 42 PID strings with default range of birth years:
+/// To generate an array of valid PID strings having 42 PID strings with default range of birth years:
 /// ```Swift
-/// let generator = FinnishPIDGenerator(range: 1800...2099, validity: .validPID)
+/// let generator = FinnishPIDGenerator()
 /// let pidStrings = generator.generatePIDs(count: 42)
 /// ```
 ///Note that the generator may generate identical PID strings on the same run, since generation is random.
