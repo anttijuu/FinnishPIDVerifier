@@ -56,7 +56,12 @@ public struct FinnishPID {
 		/// PID is for a female person.
 		case female
 	}
-	
+
+	/// Range of valid individual numbers for persons born on the same day.
+	public static let validIndividualNumberRange = 2...899
+	/// Range of valid *test* individual numbers for persons born on the same day.
+	public static let validIndividualNumberTestRange = 900...999
+
 	/// Use this type method to verify if a Finnish PID is valid or not.
 	///
 	/// - Parameter pid: The string to verify
@@ -75,9 +80,9 @@ public struct FinnishPID {
 				verifier.birthDay = date
 				if let personNumber = verifier.individualNumber {
 					verifier.gender = personNumber % 2 == 0 ? .female : .male
-					if personNumber >= 2 && personNumber <= 899 {
+					if validIndividualNumberRange.contains(personNumber) {
 						verifier.validity = .validPID
-					} else if personNumber >= 900 && personNumber <= 999 {
+					} else if validIndividualNumberTestRange.contains(personNumber) {
 						verifier.validity = .testPID
 					} else {
 						verifier.validity = .invalidPID
@@ -131,7 +136,7 @@ public struct FinnishPID {
 	public var year: Int? {
 		get {
 			if let birthDay {
-				let dateComponens = FinnishPID.calendar.dateComponents([.year], from: birthDay)
+				let dateComponens = Self.calendar.dateComponents([.year], from: birthDay)
 				return dateComponens.year
 			} else {
 				return nil
@@ -143,7 +148,7 @@ public struct FinnishPID {
 	public var month: Int? {
 		get {
 			if let birthDay {
-				let dateComponens = FinnishPID.calendar.dateComponents([.month], from: birthDay)
+				let dateComponens = Self.calendar.dateComponents([.month], from: birthDay)
 				return dateComponens.month
 			} else {
 				return nil
@@ -155,7 +160,7 @@ public struct FinnishPID {
 	public var day: Int? {
 		get {
 			if let birthDay {
-				let dateComponens = FinnishPID.calendar.dateComponents([.day], from: birthDay)
+				let dateComponens = Self.calendar.dateComponents([.day], from: birthDay)
 				return dateComponens.day
 			} else {
 				return nil
@@ -178,8 +183,18 @@ public struct FinnishPID {
 			return nil
 		}
 	}
+	
+	/// Provides a checsum character from the checksum characters using an index.
+	///
+	/// For an example on how to calculate the index, see `isCorrectControlChar(pid:)`.
+	///
+	/// - Parameter index: Index to the checksum character array.
+	/// - Returns: A checksum character in the index.
+	public static func checkSumChar(at index: Int) -> Character {
+		return Self.checkSumChars[Self.checkSumChars.index(Self.checkSumChars.startIndex, offsetBy: index)]
+	}
 
-	// MARK: - Private properties
+	// MARK: - Private and package private properties
 
 	/// Private initializer. Use the static method `verify(pid:)` to verify PIDs.
 	/// - Parameter pid: The person ID to verify
@@ -188,29 +203,29 @@ public struct FinnishPID {
 	}
 	
 	/// Needed in calendar/date related operations, Gregorian calendar used.
-	private static let calendar = Calendar(identifier: .gregorian)
+	static let calendar = Calendar(identifier: .gregorian)
 
 	/// The different century characters and related century.
-	private let centuryChars = [ "+": 1800,
-										  "-": 1900,
-										  "Y": 1900,
-										  "X": 1900,
-										  "W": 1900,
-										  "V": 1900,
-										  "U": 1900,
-										  "A": 2000,
-										  "B": 2000,
-										  "C": 2000,
-										  "D": 2000,
-										  "E": 2000,
-										  "F": 2000
-										]
+	static let centuryChars = [ "+": 1800,
+										 "-": 1900,
+										 "Y": 1900,
+										 "X": 1900,
+										 "W": 1900,
+										 "V": 1900,
+										 "U": 1900,
+										 "A": 2000,
+										 "B": 2000,
+										 "C": 2000,
+										 "D": 2000,
+										 "E": 2000,
+										 "F": 2000
+									  ]
 
 	/// Used in calculating the control character from the PID and validating it.
-	private let checkSumChars = "0123456789ABCDEFHJKLMNPRSTUVWXY"
+	static let checkSumChars = "0123456789ABCDEFHJKLMNPRSTUVWXY"
 	/// The divider used in checksum calculation.
-	private let checkSumDivider = 31
-	
+	static let checkSumDivider = 31
+
 	/// From a PID, checks if the last control character in the pid is correct.
 	/// - Parameter pid: The whole PID string.
 	/// - Returns: True if the control character was correct.
@@ -219,8 +234,8 @@ public struct FinnishPID {
 		guard string.allSatisfy( { $0.isNumber }), let checkSum = Int(string) else {
 			return false
 		}
-		let index = checkSum % checkSumDivider
-		return checkSumChars[checkSumChars.index(checkSumChars.startIndex, offsetBy: index)] == pid.last
+		let index = checkSum % Self.checkSumDivider
+		return Self.checkSumChar(at: index) == pid.last
 	}
 	
 	/// Creates a Date object from the date part of the PID, using the century character to do it.
@@ -245,8 +260,8 @@ public struct FinnishPID {
 		let month = Int(dateString.dropFirst(2).prefix(2))
 		let year = Int(dateString.dropFirst(4).prefix(2))
 		if let day, let month, let year {
-			let dateComponents = DateComponents(calendar: FinnishPID.calendar, year: century + year, month: month, day: day)
-			if dateComponents.isValidDate(in: FinnishPID.calendar) {
+			let dateComponents = DateComponents(calendar: Self.calendar, year: century + year, month: month, day: day)
+			if dateComponents.isValidDate(in: Self.calendar) {
 				return dateComponents.date
 			}
 		}
@@ -258,7 +273,7 @@ public struct FinnishPID {
 	/// - Parameter character: A century character from the PID
 	/// - Returns: True if the character is a valid century character, false otherwise.
 	private func isValidCenturyChar(_ character: Character) -> Bool {
-		centuryChars.keys.contains(String(character))
+		Self.centuryChars.keys.contains(String(character))
 	}
 
 	/// Returns a century for a specific century character in PID string.
@@ -266,7 +281,7 @@ public struct FinnishPID {
 	/// - Parameter character: A character from the PID describing the century.
 	/// - Returns: Returns either 1800, 1900 or 2000.
 	private func centuryFromCenturyChar(_ character: Character) -> Int? {
-		centuryChars[String(character)]
+		Self.centuryChars[String(character)]
 	}
 }
 

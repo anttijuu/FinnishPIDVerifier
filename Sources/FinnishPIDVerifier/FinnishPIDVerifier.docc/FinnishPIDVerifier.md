@@ -43,6 +43,10 @@ The returned `verifier` struct has properties you can use to query the result fr
 
 The library is localized in Finnish, Swedish and English. Date formats are fixed, but `genderString` and `description` return strings for these languages.
 
+### Generating PIDs
+
+The library also includes a generator to generate valid and test PIDs. Use the `FinnishPIDGenerator` to generate PIDs for testing and development.
+
 ### Using in your projects
 
 Add the depencendy to this package in your `Package.swift` using the URL to this repository:
@@ -56,4 +60,5 @@ Alternatively, use Xcode: File > Add Packages....
 ### Getting started
 
 - ``FinnishPID``
+- ``FinnishPIDGenerator``
 

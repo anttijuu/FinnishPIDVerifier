@@ -7,11 +7,37 @@
 
 import Foundation
 
+/// The `FinnishPIDGenerator` can be used to generate Finnish Person ID strings.
+///
+/// Use the `generatePID()` and `generatePIDs(count:)` methods to generate
+/// valid and/or test PIDs.
+///
+/// Usage when generating a single PID:
+/// ```Swift
+/// let generator = FinnishPIDGenerator(range: 1800...2099, validity: .validPID)
+/// let pidString = generator.generatePID()
+/// ```
+/// Where the range must be a range of valid years to generate PIDs for. The lowest possible year is 1800 while
+/// the upper limit is 2099 (inclusive).
+///
+/// To generate an array of PID strings having 42 PID strings with default range of birth years:
+/// ```Swift
+/// let generator = FinnishPIDGenerator(range: 1800...2099, validity: .validPID)
+/// let pidStrings = generator.generatePIDs(count: 42)
+/// ```
+///Note that the generator may generate identical PID strings on the same run, since generation is random.
+///For centuries 1900 and 2000, the century separator character is selected randomly from the set of valid characters.
+///
+///The generator does not generate invalid PID strings.
 public struct FinnishPIDGenerator {
 
-	public var range: ClosedRange<Int> = 1900...1900
+	/// Default range for year of birth.
+	public var range: ClosedRange<Int> = 1966...2042
+	/// Generate valid PIDs by default.
 	public var validity: FinnishPID.Validity = .validPID
-
+	
+	/// Generates a single PID using the initialized `range` and `validity`.
+	/// - Returns: A generated PID string or `nil` if something went wrong.
 	public func generatePID() -> String? {
 		guard range.lowerBound >= 1800 && range.upperBound < 2100 else {
 			return nil
@@ -40,7 +66,12 @@ public struct FinnishPIDGenerator {
 		}
 		return nil
 	}
-
+	
+	/// Generates an array of PID strings containing a `count` of PID strings.
+	///
+	/// Note that if generating a PID string fails, the array may contain less than `count` of PIDs.
+	/// - Parameter count: The count of PID strings to generate.
+	/// - Returns: An array of PID Strings.
 	public func generatePIDs(count: Int) -> [String] {
 		var pids = [String]()
 		for _ in 0..<count {
@@ -50,7 +81,11 @@ public struct FinnishPIDGenerator {
 		}
 		return pids
 	}
-
+	
+	/// Creates a random date in the range of years specified in `range` property.
+	///
+	/// If creating a random date fails, returns nil.
+	/// - Returns: A random date in the range or nil.
 	private func randomDate() -> Date? {
 		let year = Int.random(in: range)
 		let month = Int.random(in: 1...12)
@@ -62,7 +97,13 @@ public struct FinnishPIDGenerator {
 		}
 		return FinnishPID.calendar.date(from: DateComponents(calendar: FinnishPID.calendar, year: year, month: month, day: day))
 	}
-
+	
+	/// Returns the century character for the specified year.
+	///
+	/// Note that only the first two digits of the year have any significance.
+	/// If there is no proper century char for the year, returns nil.
+	/// - Parameter year: Year to loop up the century char for.
+	/// - Returns: The century character in a string or nil if there is no century char for this year.
 	private func centuryChar(for year: Int) -> String? {
 		let validCharsForYear = FinnishPID.centuryChars.filter({ (key, value) in
 			(year / 100) * 100 == value
