@@ -31,11 +31,19 @@ import Foundation
 ///The generator does not generate invalid PID strings.
 public struct FinnishPIDGenerator {
 
-	/// Default range for year of birth.
+	/// Range for year of birth used in generating PIDs.
 	public var range: ClosedRange<Int> = 1966...2042
-	/// Generate valid PIDs by default.
+	
+	/// Validity of the generated PIDs.
 	public var validity: FinnishPID.Validity = .validPID
-
+	
+	/// Initializes the generator with range of years to generate PIDs for and the selected validity.
+	///
+	/// The parameters have default values so you can call the init without parameters if defaults are OK.
+	///
+	/// - Parameters:
+	///   - range: Range of birth years to generate PIDs for.
+	///   - validity: Validity of the generated PIDs, either `.validPID` or `.testPID`.
 	public init(range: ClosedRange<Int> = 1966...2042, validity: FinnishPID.Validity = .validPID) {
 		self.range = range
 		self.validity = validity
