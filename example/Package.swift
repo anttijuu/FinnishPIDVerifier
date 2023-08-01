@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-	name: "PINVerifierTool",
+	name: "PIDVerifierTool",
 	platforms: [.macOS(.v12)],
 	dependencies: [
 		.package(url: "https://github.com/anttijuu/FinnishPIDVerifier.git", branch: "main"),
@@ -14,7 +14,7 @@ let package = Package(
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
 		// Targets can depend on other targets in this package and products from dependencies.
 		.executableTarget(
-			name: "PINVerifierTool",
+			name: "PIDVerifierTool",
 			dependencies: [
 				.product(name: "FinnishPIDVerifier", package: "FinnishPIDVerifier"),
 				.product(name: "ArgumentParser", package: "swift-argument-parser"),
