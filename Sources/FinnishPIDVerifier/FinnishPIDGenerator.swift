@@ -35,6 +35,11 @@ public struct FinnishPIDGenerator {
 	public var range: ClosedRange<Int> = 1966...2042
 	/// Generate valid PIDs by default.
 	public var validity: FinnishPID.Validity = .validPID
+
+	public init(range: ClosedRange<Int> = 1966...2042, validity: FinnishPID.Validity = .validPID) {
+		self.range = range
+		self.validity = validity
+	}
 	
 	/// Generates a single PID using the initialized `range` and `validity`.
 	/// - Returns: A generated PID string or `nil` if something went wrong.
